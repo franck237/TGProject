@@ -14,6 +14,7 @@ Gossip.destroy_all
 Tag.destroy_all
 JoinGotag.destroy_all
 PrivateMessage.destroy_all
+Comment.destroy_all
 
 #Création de 10 villes aléatoires
 	random_city_list = []
@@ -52,11 +53,51 @@ end
 
 #Création de 40 lignes supplémentaires dans la table jointe de Gossip et Tags pour ajouter quelques tags à certain Gossip de facon aléatoires
 40.times do
-	i = rand(1..20)
+	i = rand(0..19)
 	random_join_gotag = JoinGotag.create(gossip: random_gossip_list[i], tag: random_tag_list.sample)
 end
 
-#Création de 30 messages privés aléatoires
-30.times do
+#Création de 20 messages privés aléatoires
+	random_private_message_list = []
+20.times do
 	random_private_message = PrivateMessage.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: true, random_sentences_to_add: 2), sender: random_user_list.sample, recipient: random_user_list.sample)
+	random_private_message_list << random_private_message
 end
+
+#Création de 5 messages identiques avec le meme sender_id mais a des destinataires différents
+i = rand(0..4)
+5.times do
+	random_private_message = PrivateMessage.create(content: random_private_message_list[i].content, sender: random_user_list[i], recipient: random_user_list.sample)
+end
+
+#Création de 3 autres messages identiques avec le meme sender_id mais a des destinataires différents
+	v = i + 2
+3.times do
+	random_private_message = PrivateMessage.create(content: random_private_message_list[v].content, sender: random_user_list[v], recipient: random_user_list.sample)
+end
+
+#Création de 2 autres messages identiques avec le meme sender_id mais a des destinataires différents
+	u = v + 2
+2.times do
+	random_private_message = PrivateMessage.create(content: random_private_message_list[u].content, sender: random_user_list[u], recipient: random_user_list.sample)
+end
+
+#Création de 15 commentaires aléatoires avec user et gossip en foreign key
+	random_comment_list = []
+15.times do
+	random_comment = Comment.create(content: Faker::Lorem.sentence(word_count: 4, supplemental: false, random_words_to_add: 4), gossip: random_gossip_list.sample, user: random_user_list.sample)
+	random_comment_list << random_comment
+end
+
+#Création de 3 commentaires différents pour un gossip aléatoire avec des auteurs (users) aléatoires
+	i = rand(0..13)
+3.times do
+	random_comment = Comment.create(content: Faker::Lorem.sentence(word_count: 4, supplemental: false, random_words_to_add: 4), gossip: random_gossip_list[i], user: random_user_list.sample)
+end
+
+#Création de 2 autres commentaires différents pour un gossip aléatoire avec des auteurs (users) aléatoires
+	v = i + 6
+2.times do
+	random_comment = Comment.create(content: Faker::Lorem.sentence(word_count: 4, supplemental: false, random_words_to_add: 4), gossip: random_gossip_list[v], user: random_user_list.sample)
+end
+
