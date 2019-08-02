@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
-#Supprime les pércédentes lignes de la BDD mais l'incrémentation des index continue !
+#Supprime les précédentes lignes de la BDD mais l'incrémentation des index continue !
 City.destroy_all
 User.destroy_all
 Gossip.destroy_all
