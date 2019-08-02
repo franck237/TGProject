@@ -15,6 +15,7 @@ Tag.destroy_all
 JoinGotag.destroy_all
 PrivateMessage.destroy_all
 Comment.destroy_all
+Like.destroy_all
 
 #Création de 10 villes aléatoires
 	random_city_list = []
@@ -100,4 +101,20 @@ end
 2.times do
 	random_comment = Comment.create(content: Faker::Lorem.sentence(word_count: 4, supplemental: false, random_words_to_add: 4), gossip: random_gossip_list[v], user: random_user_list.sample)
 end
+
+#Création de 20 likes en les mettant a des Gossip ou des Commentaires au hasard
+20.times do
+	i = rand(1..2)
+	j = rand(0..19)
+	random_like = Like.create(user: random_user_list.sample)
+	gossip_liked = Gossip.find(j)
+	comment_liked = Comment.find(j)
+	case i
+		when 1
+			gossip_liked.likes << random_like
+		when 2
+			comment_liked.likes << random_like
+	end
+end
+
 
